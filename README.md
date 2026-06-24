@@ -49,10 +49,10 @@ backend_plants/
 | `POST /predict_model1_café_cacao` | Café / Cacao | ResNet-152 | 8 |
 | `POST /predict_model2_cassava` | Manioc (Cassava) | ResNet-152 | 5 |
 | `POST /predict_model3_cashew` | Cajou (Cashew) | ResNet-152 | 5 |
-| `POST /predict_model4_tomato` | Tomate | HuggingFace (`Doyourhomework/model_4_tomato`) | — |
-| `POST /predict_model5_rice` | Riz | HuggingFace (`Doyourhomework/model_5_rice`) | — |
-| `POST /predict_model6_maize` | Maïs | HuggingFace (`Doyourhomework/model_6_maize`) | — |
-| `POST /predict_model7_rubber_tree` | Hévéa (Rubber Tree) | ResNet-152 | 4 |
+| `POST /predict_model4_tomato` | Tomate | HuggingFace (`Doyourhomework/model_4_tomato`) | 9 |
+| `POST /predict_model5_rice` | Riz | HuggingFace (`Doyourhomework/model_5_rice`) | 5 |
+| `POST /predict_model6_maize` | Maïs | HuggingFace (`Doyourhomework/model_6_maize`) | 4 |
+| `POST /predict_model7_rubber_tree` | Hévéa (Rubber Tree) | ResNet-152 | 8 |
 
 ---
 
