@@ -49,10 +49,10 @@ backend_plants/
 | `POST /predict_model1_café_cacao` | Café / Cacao | ResNet-152 | 8 |
 | `POST /predict_model2_cassava` | Manioc (Cassava) | ResNet-152 | 5 |
 | `POST /predict_model3_cashew` | Cajou (Cashew) | ResNet-152 | 5 |
-| `POST /predict_model4_tomato` | Tomate | HuggingFace (`Doyourhomework/model_4_tomato`) | 9 |
-| `POST /predict_model5_rice` | Riz | HuggingFace (`Doyourhomework/model_5_rice`) | 5 |
-| `POST /predict_model6_maize` | Maïs | HuggingFace (`Doyourhomework/model_6_maize`) | 4 |
-| `POST /predict_model7_rubber_tree` | Hévéa (Rubber Tree) | ResNet-152 | 8 |
+| `POST /predict_model4_tomato` | Tomate | HuggingFace (`Doyourhomework/model_4_tomato`) | — |
+| `POST /predict_model5_rice` | Riz | HuggingFace (`Doyourhomework/model_5_rice`) | — |
+| `POST /predict_model6_maize` | Maïs | HuggingFace (`Doyourhomework/model_6_maize`) | — |
+| `POST /predict_model7_rubber_tree` | Hévéa (Rubber Tree) | ResNet-152 | 4 |
 
 ---
 
@@ -163,6 +163,62 @@ allow_headers=["*"]
 ```
 
 En production, restreindre `allow_origins` à l'URL du frontend.
+
+---
+
+## 🌿 Classes de maladies par culture
+
+Les modèles ont été entraînés sur les maladies suivantes, réparties par culture :
+
+| Culture | Maladies détectées | Modèle | Architecture |
+|---|---|---|---|
+| **Cacao** | Pourriture noire, Moniliose, Mirides (capsides), Sain | `model1` | ResNet-152 |
+| **Café** | Œil brun (*Cercospora coffeicola*), Mineuse des feuilles, Rouille (*Hemileia vastatrix*), Sain | `model1` | ResNet-152 |
+| **Manioc** | Bactériose (*Xanthomonas axonopodis*), Cercosporiose (*Cercospora henningsii*), Acarien vert (*Mononychellus tanajoa*), Mosaïque (CMD), Sain | `model2` | ResNet-152 |
+| **Anacarde** | Anthracnose (*Colletotrichum gloeosporioides*), Gommose (*Lasiodiplodia theobromae*), Mineuse des feuilles, Rouille rouge algaire, Sain | `model3` | ResNet-152 |
+| **Tomate** | Mildiou / Brûlure foliaire, Enroulement foliaire (TYLCV), Septoriose, Verticilliose, Sain | `model4` | ViT (HuggingFace) |
+| **Maïs** | Rouille commune, Brûlure foliaire, Tache grise des feuilles, Sain | `model6` | ViT (HuggingFace) |
+| **Riz** | Pyriculariose (*Pyricularia oryzae*), Helminthosporiose (*Bipolaris oryzae*), Échaudure foliaire (*Microdochium oryzae*), Cercosporiose (*Cercospora janseana*), Bactériose foliaire (*Xanthomonas oryzae*), Sain | `model5` | ViT (HuggingFace) |
+| **Hévéa** | Anthracnose, Dessèchement foliaire, Taches foliaires, Sain | `model7` | ResNet-152 |
+
+> **Note :** Le café et le cacao sont regroupés dans un modèle unique (`model1`) car ils relèvent de la même filière agricole en Côte d'Ivoire.
+
+---
+
+## 📊 Performances des modèles
+
+| Culture | Accuracy (train) | Accuracy (test) | F1 pondéré | Support (images) |
+|---|---|---|---|---|
+| Café-Cacao | 94% | 89.62% | 90% | 100 |
+| Manioc | 98.34% | 90.57% | 91% | 7 510 |
+| Anacarde | 98.53% | 92.38% | 95% | 1 310 |
+| Tomate | 97.74% | 99.10% | 97% | 2 844 |
+| Maïs | 96.30% | 96% | 96% | 838 |
+| Riz | 98.86% | 96.53% | 97% | 1 480 |
+| Hévéa | — | — | — | — |
+
+> **Note Hévéa :** Le jeu de données hévéa présentait des images quasi-dupliquées (augmentations en amont), conduisant à une accuracy anormalement élevée (≈ 1). Le modèle sera réévalué sur des données terrain.
+
+---
+
+## 📂 Sources des données d'entraînement
+
+Les datasets proviennent de **Mendeley Data** et de dépôts publics associés à des publications scientifiques. Ils sont distribués sous licences ouvertes (CC BY 4.0, CC BY-SA 4.0, CC0 1.0).
+
+| Culture | DOI / Source | Licence |
+|---|---|---|
+| **Café-Cacao** | *(dataset interne — DOI en cours de publication)* | — |
+| **Hévéa** | [10.17632/4kjz78m7x5.4](https://doi.org/10.17632/4kjz78m7x5.4) | CC BY 4.0 |
+| **Maïs** (PlantDoc) | [10.17632/tywbtsjrjv.1](https://doi.org/10.17632/tywbtsjrjv.1) | CC BY 4.0 |
+| **Tomate** | [10.17632/zfv4jj7855.1](https://doi.org/10.17632/zfv4jj7855.1) | CC BY 4.0 |
+| **Manioc & Anacarde** | [10.1016/j.dib.2023.109306](https://doi.org/10.1016/j.dib.2023.109306) | CC BY-SA 4.0 |
+| **Riz** | [10.17632/hx6f852hw4.2](https://doi.org/10.17632/hx6f852hw4.2) | CC BY 4.0 |
+
+### Références scientifiques des modèles
+
+- **ResNet** — He, K. et al. *Deep Residual Learning for Image Recognition*. CVPR, 2016. [doi:10.1109/CVPR.2016.90](https://doi.org/10.1109/CVPR.2016.90)
+- **Vision Transformer (ViT)** — Dosovitskiy, A. et al. *An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale*. ICLR, 2021. [arxiv:2010.11929](https://arxiv.org/abs/2010.11929)
+- **Attention Mechanism** — Vaswani, A. et al. *Attention is All You Need*. NeurIPS, 2017. [arxiv:1706.03762](https://arxiv.org/abs/1706.03762)
 
 ---
 
